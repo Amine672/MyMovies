@@ -1,0 +1,113 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\TopRepository")
+ */
+class Top
+{
+    /**
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=100)
+     */
+    private $name_top;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\movie", inversedBy="tops")
+     */
+    private $movies;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="tops")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $users;
+
+    public function __construct()
+    {
+        $this->movies = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getNameTop(): ?string
+    {
+        return $this->name_top;
+    }
+
+    public function setNameTop(string $name_top): self
+    {
+        $this->name_top = $name_top;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|movie[]
+     */
+    public function getMovies(): Collection
+    {
+        return $this->movies;
+    }
+
+    public function addMovie(movie $movie): self
+    {
+        if (!$this->movies->contains($movie)) {
+            $this->movies[] = $movie;
+        }
+
+        return $this;
+    }
+
+    public function removeMovie(movie $movie): self
+    {
+        if ($this->movies->contains($movie)) {
+            $this->movies->removeElement($movie);
+        }
+
+        return $this;
+    }
+
+    public function getUsers(): ?user
+    {
+        return $this->users;
+    }
+
+    public function setUsers(?user $users): self
+    {
+        $this->users = $users;
+
+        return $this;
+    }
+}
