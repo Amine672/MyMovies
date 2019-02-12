@@ -38,6 +38,7 @@ class Director
      */
     private $movies;
 
+
     public function __construct()
     {
         $this->movies = new ArrayCollection();
@@ -114,4 +115,5 @@ class Director
 
         return $this;
     }
+
 }

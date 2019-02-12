@@ -49,6 +49,11 @@ class Movie
     private $tops;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RateMovie", mappedBy="movie")
+     */
+    private $rateMovies;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Director", inversedBy="movies")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -59,6 +64,7 @@ class Movie
         $this->actors = new ArrayCollection();
         $this->genres = new ArrayCollection();
         $this->tops = new ArrayCollection();
+        $this->rateMovies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -186,6 +192,37 @@ class Movie
         return $this;
     }
 
+    /**
+     * @return Collection|RateMovie[]
+     */
+    public function getRateMovies(): Collection
+    {
+        return $this->rateMovies;
+    }
+
+    public function addRateMovie(RateMovie $rateMovie): self
+    {
+        if (!$this->rateMovies->contains($rateMovie)) {
+            $this->rateMovies[] = $rateMovie;
+            $rateMovie->setMovie($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRateMovie(RateMovie $rateMovie): self
+    {
+        if ($this->rateMovies->contains($rateMovie)) {
+            $this->rateMovies->removeElement($rateMovie);
+            // set the owning side to null (unless already changed)
+            if ($rateMovie->getMovie() === $this) {
+                $rateMovie->setMovie(null);
+            }
+        }
+
+        return $this;
+    }
+
     public function getDirector(): ?Director
     {
         return $this->director;
@@ -197,4 +234,5 @@ class Movie
 
         return $this;
     }
+
 }

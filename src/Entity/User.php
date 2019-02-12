@@ -43,9 +43,24 @@ class User
      */
     private $tops;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RateMovie", mappedBy="user")
+     */
+    private $rateMovies;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RateTop", mappedBy="user")
+     */
+    private $rateTops;
+
+
+
+
     public function __construct()
     {
         $this->tops = new ArrayCollection();
+        $this->rateMovies = new ArrayCollection();
+        $this->rateTops = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,4 +146,79 @@ class User
 
         return $this;
     }
+
+    public function getRate(): ?Rate
+    {
+        return $this->rate;
+    }
+
+    public function setRate(?Rate $rate): self
+    {
+        $this->rate = $rate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RateMovie[]
+     */
+    public function getRateMovies(): Collection
+    {
+        return $this->rateMovies;
+    }
+
+    public function addRateMovie(RateMovie $rateMovie): self
+    {
+        if (!$this->rateMovies->contains($rateMovie)) {
+            $this->rateMovies[] = $rateMovie;
+            $rateMovie->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRateMovie(RateMovie $rateMovie): self
+    {
+        if ($this->rateMovies->contains($rateMovie)) {
+            $this->rateMovies->removeElement($rateMovie);
+            // set the owning side to null (unless already changed)
+            if ($rateMovie->getUser() === $this) {
+                $rateMovie->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RateTop[]
+     */
+    public function getRateTops(): Collection
+    {
+        return $this->rateTops;
+    }
+
+    public function addRateTop(RateTop $rateTop): self
+    {
+        if (!$this->rateTops->contains($rateTop)) {
+            $this->rateTops[] = $rateTop;
+            $rateTop->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRateTop(RateTop $rateTop): self
+    {
+        if ($this->rateTops->contains($rateTop)) {
+            $this->rateTops->removeElement($rateTop);
+            // set the owning side to null (unless already changed)
+            if ($rateTop->getUser() === $this) {
+                $rateTop->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
 }

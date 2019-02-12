@@ -39,9 +39,17 @@ class Top
      */
     private $users;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\RateTop", mappedBy="top")
+     */
+    private $rateTops;
+
+
     public function __construct()
     {
         $this->movies = new ArrayCollection();
+        $this->rates = new ArrayCollection();
+        $this->rateTops = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -110,4 +118,36 @@ class Top
 
         return $this;
     }
+
+    /**
+     * @return Collection|RateTop[]
+     */
+    public function getRateTops(): Collection
+    {
+        return $this->rateTops;
+    }
+
+    public function addRateTop(RateTop $rateTop): self
+    {
+        if (!$this->rateTops->contains($rateTop)) {
+            $this->rateTops[] = $rateTop;
+            $rateTop->setTop($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRateTop(RateTop $rateTop): self
+    {
+        if ($this->rateTops->contains($rateTop)) {
+            $this->rateTops->removeElement($rateTop);
+            // set the owning side to null (unless already changed)
+            if ($rateTop->getTop() === $this) {
+                $rateTop->setTop(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
