@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block middle %}
+    <script> 
+        function my(id){
+            str = id.id;
+            document.getElementById(str).style.visibility = "visible";
+        }
+    </script>
+    <div class="container">
+        {% for genre in genres %}
+            <button class="btn btn-success" id="buttonGenre{{ loop.index }}" onclick="my(buttonGenres{{ loop.index }})">{{genre.namegenre}}</button>
+        {% endfor %}
+    </div>
+    <br>
+    <div class="container">
+        {% for genre in genres %}
+            <button class="btn btn-success" id="buttonGenres{{ loop.index }}" style="visibility:hidden">{{genre.namegenre}}</button>
+        {% endfor %}
+    </div>
+    {# <form>
+    </form> #}
+{% endblock %}

@@ -6,9 +6,32 @@
             <img src="{{ mov.img }}">
             <article style="padding-left:15px">
                 <h1 style="font-size:60px">{{mov.title}}</h1>
+		<div class="star-rating">
+			<input id="star-5" type="radio" name="rating" value="star-5">
+			<label for="star-5" title="5 stars">
+					<i class="active fa fa-star" aria-hidden="true"></i>
+			</label>
+			<input id="star-4" type="radio" name="rating" value="star-4">
+			<label for="star-4" title="4 stars">
+					<i class="active fa fa-star" aria-hidden="true"></i>
+			</label>
+			<input id="star-3" type="radio" name="rating" value="star-3">
+			<label for="star-3" title="3 stars">
+					<i class="active fa fa-star" aria-hidden="true"></i>
+			</label>
+			<input id="star-2" type="radio" name="rating" value="star-2">
+			<label for="star-2" title="2 stars">
+					<i class="active fa fa-star" aria-hidden="true"></i>
+			</label>
+			<input id="star-1" type="radio" name="rating" value="star-1">
+			<label for="star-1" title="1 star">
+					<i class="active fa fa-star" aria-hidden="true"></i>
+			</label>
+		</div>
+                <hr>
                 <br>
                 {% for genre in mov.genres %}
-                     <a href="http://127.0.0.1:8000/Genre/{{genre.id}}"><strong style="font-size:30px">{{ genre.nameGenre }},</strong></a>
+                     <a href="http://127.0.0.1:8000/Genre/{{genre.id}}"><strong style="font-size:30px">{{ genre.nameGenre }}, </strong></a>
                 {% endfor %}
                 <br>         
                 <p style="font-size:30px">Duration : <strong style="font-size:30px">{{ mov.duration }} min</strong></p>

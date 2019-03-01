@@ -60,4 +60,16 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/ListGenre", name="listgenre")
+     */
+    public function listgenre() :Response {
+
+        $repositoryGenre = $this->getDoctrine()->getRepository(Genre::class);
+        $genres = $repositoryGenre->findAll();
+
+        return $this->render('pages/listgenre.html.twig', [
+            'genres' => $genres
+        ]);
+    }
 }

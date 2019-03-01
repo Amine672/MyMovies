@@ -28,9 +28,15 @@ class Genre
      */
     private $movie;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="genres")
+     */
+    private $users;
+
     public function __construct()
     {
         $this->movie = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -75,4 +81,33 @@ class Genre
 
         return $this;
     }
+
+    /**
+     * @return Collection|User[]
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
+    }
+
+    public function addUser(User $user): self
+    {
+        if (!$this->users->contains($user)) {
+            $this->users[] = $user;
+            $user->addGenre($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        if ($this->users->contains($user)) {
+            $this->users->removeElement($user);
+            $user->removeGenre($this);
+        }
+
+        return $this;
+    }
+
 }

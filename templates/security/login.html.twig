@@ -1,17 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block middle %}
     <h1>Login page </h1>
-
-    {# <form method="post" action="http://127.0.0.1:8000/">
-        <input name="_username" type="text" placeholder="Username..">
-        <input name="_password" type="password" placeholder="Password..">
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form> #}
-    {# {{ form_start(formLogin) }}
-        {{ form_widget(formLogin) }}
-        <button type="submit" class="btn btn-primary">Submit</button>
-    {{ form_end(formLogin) }} #}
-       {% if error %}
+    {% if error %}
         <div class="alert alert-danger">
             <ul class="list-unstyled mb-0">
                 <li><span class="initialism form-error-icon badge badge-danger">Error</span> 

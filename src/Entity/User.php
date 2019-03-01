@@ -72,14 +72,17 @@ class User Implements UserInterface
      */
     private $rateTops;
 
-
-
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="users")
+     */
+    private $genres;
 
     public function __construct()
     {
         $this->tops = new ArrayCollection();
         $this->rateMovies = new ArrayCollection();
         $this->rateTops = new ArrayCollection();
+        $this->genres = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -251,5 +254,33 @@ class User Implements UserInterface
     public function eraseCredentials(){
      
     }
+
+    /**
+     * @return Collection|genre[]
+     */
+    public function getGenres(): Collection
+    {
+        return $this->genres;
+    }
+
+    public function addGenre(genre $genre): self
+    {
+        if (!$this->genres->contains($genre)) {
+            $this->genres[] = $genre;
+        }
+
+        return $this;
+    }
+
+    public function removeGenre(genre $genre): self
+    {
+        if ($this->genres->contains($genre)) {
+            $this->genres->removeElement($genre);
+        }
+
+        return $this;
+    }
+
+
 
 }
