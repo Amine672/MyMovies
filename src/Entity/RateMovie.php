@@ -24,12 +24,12 @@ class RateMovie
     private $rate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="rateMovies")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="rateMovies")
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\movie", inversedBy="rateMovies")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Movie", inversedBy="rateMovies")
      */
     private $movie;
 

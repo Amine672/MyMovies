@@ -22,12 +22,12 @@ class RateTop
     private $rate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="rateTops")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="rateTops")
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\top", inversedBy="rateTops")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Top", inversedBy="rateTops")
      */
     private $top;
 

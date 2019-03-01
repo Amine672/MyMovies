@@ -29,12 +29,12 @@ class Top
     private $createdAt;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\movie", inversedBy="tops")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", inversedBy="tops")
      */
     private $movies;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="tops")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tops")
      * @ORM\JoinColumn(nullable=false)
      */
     private $users;

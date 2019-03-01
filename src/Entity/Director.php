@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\DirectorRepository")
  */
@@ -19,22 +20,17 @@ class Director
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=255)
      */
     private $name_director;
 
     /**
-     * @ORM\Column(type="string", length=30)
-     */
-    private $lastname_director;
-
-    /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $birthdate_director;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\movie", mappedBy="director", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Movie", mappedBy="director", orphanRemoval=true)
      */
     private $movies;
 
@@ -57,18 +53,6 @@ class Director
     public function setNameDirector(string $name_director): self
     {
         $this->name_director = $name_director;
-
-        return $this;
-    }
-
-    public function getLastnameDirector(): ?string
-    {
-        return $this->lastname_director;
-    }
-
-    public function setLastnameDirector(string $lastname_director): self
-    {
-        $this->lastname_director = $lastname_director;
 
         return $this;
     }

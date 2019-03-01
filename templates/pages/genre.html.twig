@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://mobirise.com/bootstrap-4-theme/magazine-template/assets/theme/css/style.css">
+    <link rel="stylesheet" href="https://mobirise.com/bootstrap-4-theme/magazine-template/assets/mobirise/css/mbr-additional.css" type="text/css">
+{% endblock %}
+{% block middle %}
+
+<section class="features3 cid-qzaosgPVmz" id="features3-7" data-rv-view="5922">    
+    <div class="album py-5 text-center">
+    {% for g in genre %}
+        <strong style="font-size: 60px">random liste of {{g.namegenre}} movie</strong>
+        <hr>
+    {% endfor %}
+    <div class="container">
+        <div class="row">
+    {% if movies is defined %}
+        {% for movie in movies %}
+                <div class="card p-3 col-12 col-md-6 col-lg-3">
+                    <div class="card-wrapper">
+                        <div class="card-img">
+                            <img src="{{ movie.img }}" alt="Mobirise" title="" media-simple="true">
+                        </div>
+                        <div class="card-box">
+                            <h4 class="card-title mbr-fonts-style display-7"><strong>
+                                {{movie.title}}</strong></h4>
+                            <p class="mbr-text mbr-fonts-style display-7">
+                                {{movie.overview}}</p>
+                        </div>
+                        <div class="mbr-section-btn text-center"><a href="{{ path('Movie', {slug: movie.id}) }}" class="btn btn-black display-4">
+                                See more</a></div>
+                    </div>
+                </div>      
+        {% endfor %}
+    {% endif %}
+        </div>
+    </div>
+    </div>
+</section>
+
+{% endblock %}

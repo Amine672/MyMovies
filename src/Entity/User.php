@@ -2,14 +2,25 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ * fields = {"email"},
+ * message = "This email is already registrate",
+ * )
+ * @UniqueEntity(
+ * fields = {"username"},
+ * message = "This username is already registrate",
+ * )
  */
-class User
+class User Implements UserInterface
 {
     /**
      * @ORM\Id()
@@ -21,12 +32,12 @@ class User
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $name_user;
+    private $username;
 
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $lastname_user;
+    private $userlastname;
 
     /**
      * @ORM\Column(type="string", length=60)
@@ -35,8 +46,16 @@ class User
 
     /**
      * @ORM\Column(type="string", length=60)
+     * @Assert\Length(min="8", minMessage="Your password must have 8 caractere min")
      */
     private $password;
+
+    /**
+     * 
+     * @Assert\EqualTo(propertyPath="password", message="You didnt write the same password")
+     */
+    public $confirm_password;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Top", mappedBy="users", orphanRemoval=true)
@@ -68,27 +87,27 @@ class User
         return $this->id;
     }
 
-    public function getNameUser(): ?string
+    public function getUsername(): ?string
     {
-        return $this->name_user;
+        return $this->username;
     }
 
-    public function setNameUser(string $name_user): self
+    public function setUsername(string $username): self
     {
-        $this->name_user = $name_user;
-
+        $this->username = $username;
+        
         return $this;
     }
 
-    public function getLastnameUser(): ?string
+    public function getUserlastname(): ?string
     {
-        return $this->lastname_user;
+        return $this->username;
     }
 
-    public function setLastnameUser(string $lastname_user): self
+    public function setUserlastname(string $userlastname): self
     {
-        $this->lastname_user = $lastname_user;
-
+        $this->userlastname = $userlastname;
+        
         return $this;
     }
 
@@ -219,6 +238,18 @@ class User
         }
 
         return $this;
+    }
+    
+    public function getRoles(){
+        return ['ROLE_USER'];
+    }
+ 
+    public function getSalt(){
+ 
+    }
+ 
+    public function eraseCredentials(){
+     
     }
 
 }

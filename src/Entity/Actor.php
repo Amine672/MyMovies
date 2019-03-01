@@ -19,17 +19,12 @@ class Actor
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=255)
      */
     private $name_actor;
 
     /**
-     * @ORM\Column(type="string", length=30)
-     */
-    private $lastname_actor;
-
-    /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $birthdate_actor;
 
@@ -56,18 +51,6 @@ class Actor
     public function setNameActor(string $name_actor): self
     {
         $this->name_actor = $name_actor;
-
-        return $this;
-    }
-
-    public function getLastnameActor(): ?string
-    {
-        return $this->lastname_actor;
-    }
-
-    public function setLastnameActor(string $lastname_actor): self
-    {
-        $this->lastname_actor = $lastname_actor;
 
         return $this;
     }

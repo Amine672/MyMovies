@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+{% block middle %}
+    <br>
+    {% for mov in movie %}
+        <div style="display: flex;">
+            <img src="{{ mov.img }}">
+            <article style="padding-left:15px">
+                <h1 style="font-size:60px">{{mov.title}}</h1>
+                <br>
+                {% for genre in mov.genres %}
+                     <a href="http://127.0.0.1:8000/Genre/{{genre.id}}"><strong style="font-size:30px">{{ genre.nameGenre }},</strong></a>
+                {% endfor %}
+                <br>         
+                <p style="font-size:30px">Duration : <strong style="font-size:30px">{{ mov.duration }} min</strong></p>
+                <p style="font-size:30px">Created at : <strong style="font-size:30px">{{ mov.createdAt }}</strong></p> 
+                <p style="font-size:30px">Made by : <strong style="font-size:30px">{{ mov.director.nameDirector }}</strong></p> 
+                <p style="font-size:30px"> Actors : 
+                {% for actor in mov.actors %}
+                     <strong style="font-size:30px">{{ actor.nameActor }},</strong>
+                {% endfor %}
+                </p>
+                <p style="font-size:30px">{{mov.overview}}</p>
+            </article>
+        </div>       
+
+{% endfor %}
+{% endblock %}

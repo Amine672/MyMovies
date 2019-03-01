@@ -19,17 +19,17 @@ class Movie
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=255)
      */
     private $title;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $duration;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="string", length=50)
      */
     private $createdAt;
 
@@ -58,6 +58,18 @@ class Movie
      * @ORM\JoinColumn(nullable=false)
      */
     private $director;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $overview;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $img;
+
+
 
     public function __construct()
     {
@@ -96,7 +108,7 @@ class Movie
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
+    public function getCreatedAt(): ?string
     {
         return $this->createdAt;
     }
@@ -231,6 +243,30 @@ class Movie
     public function setDirector(?Director $director): self
     {
         $this->director = $director;
+
+        return $this;
+    }
+
+    public function getOverview(): ?string
+    {
+        return $this->overview;
+    }
+
+    public function setOverview(?string $overview): self
+    {
+        $this->overview = $overview;
+
+        return $this;
+    }
+
+    public function getImg(): ?string
+    {
+        return $this->img;
+    }
+
+    public function setImg(?string $img): self
+    {
+        $this->img = $img;
 
         return $this;
     }
