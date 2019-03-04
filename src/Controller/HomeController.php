@@ -30,14 +30,11 @@ class HomeController extends AbstractController
     public function movie($slug): Response {
 
         $repositoryMovie = $this->getDoctrine()->getRepository(Movie::class);
-        /*$repositoryDirector = $this->getDoctrine()->getRepository(Director::class);
-        $repositoryActor = $this->getDoctrine()->getRepository(Actor::class);*/
-        
         $movie = $repositoryMovie->findBy(['id' => $slug]);
         
 
         return $this->render('pages/movie.html.twig', [
-            'movie' => $movie
+            'movie' => $movie[0]
         ]);
     }
     /**
@@ -71,5 +68,25 @@ class HomeController extends AbstractController
         return $this->render('pages/listgenre.html.twig', [
             'genres' => $genres
         ]);
+    }
+
+    /**
+     * @Route("/Actor/{slug}", name="Actor")
+     */
+    public function actor($slug) : Response {
+
+        $repositoryActor = $this->getDoctrine()->getRepository(Actor::class);
+        $actors = $repositoryActor->findBy(['id' => $slug]);
+        return $this->render('pages/actor.html.twig', [
+            'actors' => $actors
+        ]);
+    }
+
+    /**
+     * @Route("/rate/{note}/{id}", name="rateMovie")
+     */
+    public function rateMovie($note, Movie $movie) : Response{
+        
+        return new Response($note);
     }
 }

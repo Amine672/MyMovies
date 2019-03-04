@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block middle %}
+<div class="container">
+    {% for actor in actors %}
+        <h1>{{actor.nameActor}}</h1>
+        <br>
+        <strong>Know for : </strong>
+        <br>
+            
+    <div class="container">
+        {% for movie in actor.Movies %}
+            <div class="card-deck mb-3 text-center">
+                <div class="card mb-4 shadow-sm">
+                  <div class="card-header">
+                    <h4 class="my-0 font-weight-normal">{{movie.title}}</h4>
+                  </div>
+                  <div class="card-body">
+                    <img src="{{movie.img}}">
+                    <br>
+                    <a href="{{ path('Movie', {slug: movie.id}) }}" class="btn btn-secondary">See more</a>
+                  </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endfor %} 
+{% endblock %}

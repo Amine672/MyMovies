@@ -29,7 +29,7 @@ class Actor
     private $birthdate_actor;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\movie", inversedBy="actors")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Movie", inversedBy="actors")
      */
     private $movies;
 
