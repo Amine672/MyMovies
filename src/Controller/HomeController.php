@@ -2,14 +2,15 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
-
-use App\Entity\Movie;
-use App\Entity\Director;
-use App\Entity\Genre;
 use App\Entity\Actor;
+use App\Entity\Genre;
+use App\Entity\Movie;
+
+use App\Entity\Director;
+use App\Entity\RateMovie;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 class HomeController extends AbstractController
@@ -83,9 +84,18 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/rate/{note}/{id}", name="rateMovie")
+     * @Route("/Rate/{note}/{userId}/{movieId}", name="rateMovie")
      */
-    public function rateMovie($note, Movie $movie) : Response{
+    public function rateMovie($note, $userId, $movieId) : Response{
+        $repositoryRateMovie = $this->getDoctrine()->getRepository(RateMovie::class);
+
+        if ($repositoryRateMovie->findByUserIdAndMovieId($userId, $movieId)){
+            $repositoryRateMovie->updateRate($note, $userId, $movieId);
+        }
+        else {
+            $repositoryRateMovie->insertRate($note, $userId, $movieId);
+        }
+
         
         return new Response($note);
     }
