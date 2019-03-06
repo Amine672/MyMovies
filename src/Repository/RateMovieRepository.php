@@ -36,43 +36,19 @@ class RateMovieRepository extends ServiceEntityRepository
     }
     */
 
-    public function findByUserIdAndMovieId($userId, $movieId){
-        return $this->createQueryBuilder('m')
-        ->select('m.id')
-        ->where('m.user = :userId')
-        ->andWhere('m.movie = :movieId')
-        ->setParameter('userId', $userId)
-        ->setParameter('movieId', $movieId)
+    public function findByUserIdAndMovieId($user, $movie){
+        return $this->createQueryBuilder('r')
+        ->where('r.user = :user')
+        ->andWhere('r.movie = :movie')
+        ->setParameter('user', $user)
+        ->setParameter('movie', $movie)
         ->getQuery()
-        ->getResult();
+        ->getOneOrNullResult();
     }
 
-    public function updateRate($rate, $userId, $movieId){
-        $qb = $this->createQueryBuilder('m')
-        ->update()
-        ->set('m.rate', ':rate')
-        ->set('m.user', ':userId')
-        ->set('m.movie', ':movieId')
-        ->setParameter('rate', $rate)
-        ->setParameter('userId', $userId)
-        ->setParameter('movieId', $movieId);
-        
-        return $qb->getQuery()->getResult();
-    }
 
-    public function insertRate($rate, $userId, $movieId){
-        $qb = $this->createQueryBuilder('m')
-        ->insert('m')
-        ->set('m.rate', ':rate')
-        ->set('m.user', ':userId')
-        ->set('m.movie', ':movieId')
-        ->setParameter('rate', $rate)
-        ->setParameter('userId', $userId)
-        ->setParameter('movieId', $movieId);
-        
-        return $qb->getQuery()->getResult();
-    }
 
+    
 
     /*
     public function findOneBySomeField($value): ?RateMovie

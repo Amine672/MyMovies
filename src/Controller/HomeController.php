@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Actor;
 use App\Entity\Genre;
-use App\Entity\Movie;
 
+use App\Entity\Movie;
 use App\Entity\Director;
 use App\Entity\RateMovie;
+
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -84,19 +86,23 @@ class HomeController extends AbstractController
     }
 
     /**
-     * @Route("/Rate/{note}/{userId}/{movieId}", name="rateMovie")
+     * @Route("/Rate/{note}/{user}/{movie}", name="rateMovie")
      */
-    public function rateMovie($note, $userId, $movieId) : Response{
+    public function rateMovie($note, User $user, Movie $movie) : Response{
         $repositoryRateMovie = $this->getDoctrine()->getRepository(RateMovie::class);
-
-        if ($repositoryRateMovie->findByUserIdAndMovieId($userId, $movieId)){
-            $repositoryRateMovie->updateRate($note, $userId, $movieId);
+        $em = $this->getDoctrine()->getManager();
+        $repositoryRateMovie->findBy(['user' => $user]);
+        if($rating = $repositoryRateMovie->findByUserIdAndMovieId($user, $movie)){
+            $rating->setRate($note);
         }
         else {
-            $repositoryRateMovie->insertRate($note, $userId, $movieId);
+            $rating = new RateMovie();
+            $rating->setUser($user);
+            $rating->setMovie($movie);
+            $rating->setRate($note);
+            $em->persist($rating);
         }
-
-        
+        $em->flush();
         return new Response($note);
     }
 }
