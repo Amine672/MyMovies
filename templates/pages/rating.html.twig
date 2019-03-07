@@ -1,0 +1,20 @@
+
+<div class="star-rating">
+    {% if userRate is null %}
+        {% set note = 0 %}
+    {% else %}
+        {% set note = userRate.rate %}
+    {% endif %}
+    {% for i in 10..1 %}
+        
+        <label for="star-{{i}}" title="{{i}} stars" {{ note >= i ? 'class="active"' : '' }}>
+            <input class="star" type="radio" name="rating" value="{{i}}">
+            <i class="active fa fa-star" aria-hidden="true"></i>
+        </label>
+    
+    {% endfor %}
+        {# {% if userrate %}
+            <span>You rated the movie : {{userrate.rate}}/10  </span>
+        {% endif %} #}
+    
+</div>

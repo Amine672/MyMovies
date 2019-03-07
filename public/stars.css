@@ -17,6 +17,7 @@
     transition: all .3s ease-in-out
 }
 
+.star-rating label.active,
 .star-rating label:hover,
 .star-rating label:hover ~ label,
 .star-rating input[type=radio]:checked ~ label {

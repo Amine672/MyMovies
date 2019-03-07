@@ -1,54 +1,24 @@
 {% extends 'base.html.twig' %}
 {% block middle %}
     <br>
-    
-    <div style="display: flex;">
+    <div style="display: flex; margin-left: 10%; margin-right: 10%">
         <img src="{{ movie.img }}">
         <article style="padding-left:15px">
             <h1 style="font-size:60px">{{movie.title}}</h1>
-	        <div class="star-rating">
-	        	<label for="star-10" title="10 stars">
-                    <input class="star" type="radio" name="rating" value="10">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-9" title="9 stars">
-                    <input class="star" type="radio" name="rating" value="9">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-8" title="8 stars">
-                    <input class="star" type="radio" name="rating" value="8">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-7" title="7 stars">
-                    <input class="star" type="radio" name="rating" value="7">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-6" title="6 star">
-                    <input class="star" type="radio" name="rating" value="6">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-5" title="5 stars">
-                       <input class="star" type="radio" name="rating" value="5">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-4" title="4 stars">
-                       <input class="star" type="radio" name="rating" value="4">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-3" title="3 stars">
-                       <input class="star" type="radio" name="rating" value="3">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-2" title="2 stars">
-                       <input class="star" type="radio" name="rating" value="2">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-	        	<label for="star-1" title="1 star">
-                       <input class="star" type="radio" name="rating" value="1">
-	        		<i class="active fa fa-star" aria-hidden="true"></i>
-	        	</label>
-                
-	        </div>
+	        
+            <div id="userRating">
+                {% if app.user %}
+                    {% include 'pages/rating.html.twig' %}
+                {% endif %}
+            </div>
+            <div class="d-flex justify-content-end">
+                {% if rate == "Movie without a rate" %}
+                    <strong> {{      rate }} </strong>
+                {% else %}
+                    <label class="active">
+                    <i class="active fa fa-star fa-3x" aria-hidden="true"><strong>{{ rate }}/10</strong></i>
+                {% endif %}
+            </div>
             <hr>
             <br>
             {% for genre in movie.genres %}
@@ -70,17 +40,19 @@
 
   
 {% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script>
         $(".fa-star").click(function(){
+
             var note = $(this).siblings(".star").val();
             $.post(
-                "/Rate/"+note+"/"+{{ app.user.id }}+"/"+{{ movie.id }}
+                "/Rate/"+note+"/"+{{ app.user.id }}+"/"+{{ movie.id }},
+                function(data){
+                    $("#userRating").html(data);
+                }
             )
         })
-                        {# function(data){
-                    alert(data);
-                } #}
     </script>
-{% endblock %}  
+{% endblock %} 

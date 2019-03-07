@@ -30,14 +30,28 @@ class HomeController extends AbstractController
     /**
     * @Route("/Movie/{slug}", name="Movie")
     */
-    public function movie($slug): Response {
+    public function movie(Movie $slug): Response {
 
         $repositoryMovie = $this->getDoctrine()->getRepository(Movie::class);
-        $movie = $repositoryMovie->findBy(['id' => $slug]);
+        $repositoryRateMovie = $this->getDoctrine()->getRepository(RateMovie::class);
         
-
+        $userRate = $repositoryRateMovie->findByUserIdAndMovieId($this->getUser(), $slug);
+        
+        $rateMovies = $repositoryRateMovie->findBy(['movie' => $slug]);
+        $rate = 0;
+        if ($rateMovies){
+            foreach ($rateMovies as $value){
+                $rate += $value->getRate();
+            }
+            $rate = $rate / count($rateMovies);
+        }
+        else {
+            $rate = "Movie without a rate";
+        }
         return $this->render('pages/movie.html.twig', [
-            'movie' => $movie[0]
+            'movie' => $slug,
+            'userRate' => $userRate,
+            'rate' => $rate
         ]);
     }
     /**
@@ -103,6 +117,11 @@ class HomeController extends AbstractController
             $em->persist($rating);
         }
         $em->flush();
-        return new Response($note);
+
+        $response =  $this->render('pages/rating.html.twig', [
+                "userRate" => $rating
+            ])->getContent();
+
+        return new Response($response);
     }
 }

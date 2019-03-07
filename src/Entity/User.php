@@ -169,18 +169,6 @@ class User Implements UserInterface
         return $this;
     }
 
-    public function getRate(): ?Rate
-    {
-        return $this->rate;
-    }
-
-    public function setRate(?Rate $rate): self
-    {
-        $this->rate = $rate;
-
-        return $this;
-    }
-
     /**
      * @return Collection|RateMovie[]
      */
