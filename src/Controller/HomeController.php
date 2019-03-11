@@ -10,6 +10,8 @@ use App\Entity\Movie;
 use App\Entity\Director;
 use App\Entity\RateMovie;
 
+use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -57,20 +59,27 @@ class HomeController extends AbstractController
     /**
     * @Route("/Genre/{slug}", name="Genre")
     */
-    public function genre($slug) : Response{
+    public function genre($slug, PaginatorInterface $paginator, Request $request) : Response{
 
         $repositoryMovies = $this->getDoctrine()->getRepository(Movie::class);
         $repositoryGenre = $this->getDoctrine()->getRepository(Genre::class);
         $genre = $repositoryGenre->findBy(['id' => $slug]);
-        $movies = $repositoryMovies->findByGenre($genre);
+        // $movies = $repositoryMovies->findByGenre($genre);
         
-        for ($i = 0; $i <= 19; $i++){
-            $y = rand(1, 300);
-            $movies_20[] = $movies[$y];
-        }
+        $movies = $paginator->paginate(
+            $repositoryMovies->findByGenre($genre),
+            $request->query->getInt('page', 1),
+            20
+        );
+
+        // for ($i = 0; $i <= 19; $i++){
+        //     $y = rand(1, 300);
+        //     $movies_20[] = $movies[$y];
+        // }
         return $this->render('pages/genre.html.twig', [
-            'movies' => $movies_20,
-            'genre' => $genre
+            // 'movies' => $movies_20,
+            'genre' => $genre,
+            'movies' => $movies
         ]);
     }
 
