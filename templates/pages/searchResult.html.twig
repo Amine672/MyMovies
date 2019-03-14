@@ -1,0 +1,10 @@
+{% if results is defined %}
+    {% if results is not empty %}
+        {% for result in results %}
+            <a class="dropdown-item" href="{{ path('Movie', {slug: result.id}) }}">{{result.title}}</a>
+        {% endfor %}
+    {% else %}
+        <p class="dropdown-item">No result...</p>
+    {% endif %}
+
+{% endif %}

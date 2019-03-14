@@ -13,10 +13,10 @@
             </div>
             <div class="d-flex justify-content-end">
                 {% if rate == "Movie without a rate" %}
-                    <strong> {{      rate }} </strong>
+                    <strong> {{ rate }} </strong>
                 {% else %}
                     <label class="active">
-                    <i class="active fa fa-star fa-3x" aria-hidden="true"><strong>{{ rate }}/10</strong></i>
+                    <i class="active fa fa-star fa-3x" aria-hidden="true" id="ratemajor"><strong>{{ rate }}/10</strong></i>
                 {% endif %}
             </div>
             <hr>
@@ -43,16 +43,28 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        $(".fa-star").click(function(){
-
-            var note = $(this).siblings(".star").val();
-            $.post(
-                "/Rate/"+note+"/"+{{ app.user.id }}+"/"+{{ movie.id }},
-                function(data){
-                    $("#userRating").html(data);
+    {% if app.user %}
+        <script>
+                function average(){
+                    $.post(
+                        "/AverageRate/" +{{movie.id}},
+                        function(data){
+                            console.log(data)
+                        }
+                    )
                 }
-            )
-        })
-    </script>
+                $(".fa-star").click(function(){
+
+                    var note = $(this).siblings(".star").val();
+                    $.post(
+                        "/Rate/"+note+"/"+{{ app.user.id }}+"/"+{{ movie.id }},
+                        function(data){
+                            $("#userRating").html(data);
+                            average()
+                        }
+                    )
+                })
+
+        </script>
+    {% endif %}
 {% endblock %} 

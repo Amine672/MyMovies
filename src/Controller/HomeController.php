@@ -14,6 +14,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
@@ -55,6 +56,28 @@ class HomeController extends AbstractController
             'userRate' => $userRate,
             'rate' => $rate
         ]);
+    }
+    /**
+     * @Route("/AverageRate/{slug}", name="average")
+     */
+    public function average($slug){
+
+        $repositoryMovie = $this->getDoctrine()->getRepository(Movie::class);
+        $rateMovies = $repositoryRateMovie->findBy(['movie' => $slug]);
+        $rate = 0;
+        if ($rateMovies){
+            foreach ($rateMovies as $value){
+                $rate += $value->getRate();
+            }
+            $rate = $rate / count($rateMovies);
+        }
+        else {
+            $rate = "Movie without a rate";
+        }  
+        $average = json_encode($rate);
+
+        return JsonResponse($average);
+
     }
     /**
     * @Route("/Genre/{slug}", name="Genre")
@@ -130,6 +153,22 @@ class HomeController extends AbstractController
         $response =  $this->render('pages/rating.html.twig', [
                 "userRate" => $rating
             ])->getContent();
+
+        return new Response($response);
+    }
+    /**
+     * @Route("/search_movie", name="search_movie") 
+     */
+    public function search(Request $req) : Response{
+        $em = $this->getDoctrine()->getManager();
+        $key = $req->get('searchBar');
+        $repositoryMovie = $this->getDoctrine()->getRepository(Movie::class);
+        
+        $rep = $repositoryMovie->searchBar($key);
+
+        $response =  $this->render('pages/searchResult.html.twig', [
+            "results" => $rep
+        ])->getContent();
 
         return new Response($response);
     }

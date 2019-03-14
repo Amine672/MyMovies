@@ -38,10 +38,13 @@
                         <a class="nav-link disabled" href="#">Disabled</a>
                     </li>
                 </ul>
-                <form class="form-inline mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                <div class="dropdown mt-2 mt-md-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="searchBar" autocomplete="off" >
+                    <div id="display" class="dropdown-menu">
+                        
+                    </div>
+                </div>
+                
             </div>
         </nav>
     </header>
@@ -66,7 +69,26 @@
         crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossorigin="anonymous"></script>
-    <script src="bloodhound.jquery.min.js"></script>
-    <script src="typeahead.jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+           $("#searchBar").keyup(function() {
+               var name = $('#searchBar').val();
+               if (name == "") {
+                   $("#display").hide();
+               }
+               else if(name.length >= 1) {
+                   $.post(
+                       "{{ path('search_movie') }}",
+                       {
+                           searchBar: name
+                       },
+                       function(html) {
+                           $('#display').html(html).show();
+                       }
+                   );
+               }
+           });
+        });
+    </script>
     </body>
 </html>
