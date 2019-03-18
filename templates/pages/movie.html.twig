@@ -11,20 +11,18 @@
                     {% include 'pages/rating.html.twig' %}
                 {% endif %}
             </div>
-            <div class="d-flex justify-content-end">
-                {% if rate == "Movie without a rate" %}
-                    <strong> {{ rate }} </strong>
-                {% else %}
+            <div style="display:flex; justify-content: space-between">
+                <div>
+                    {% for genre in movie.genres %}
+                         <a href="http://127.0.0.1:8000/Genre/{{genre.id}}"><strong style="font-size:30px">{{ genre.nameGenre }}, </strong></a>
+                    {% endfor %}
+                </div>
+                <div>
                     <label class="active">
-                    <i class="active fa fa-star fa-3x" aria-hidden="true" id="ratemajor"><strong>{{ rate }}/10</strong></i>
-                {% endif %}
+                    <i class="active fa fa-star fa-3x" aria-hidden="true" id="ratemajor"><strong>{{ rate }}</strong></i>
+                </div>
             </div>
             <hr>
-            <br>
-            {% for genre in movie.genres %}
-                 <a href="http://127.0.0.1:8000/Genre/{{genre.id}}"><strong style="font-size:30px">{{ genre.nameGenre }}, </strong></a>
-            {% endfor %}
-            <br>         
             <p style="font-size:30px">Duration : <strong style="font-size:30px">{{ movie.duration }} min</strong></p>
             <p style="font-size:30px">Created at : <strong style="font-size:30px">{{ movie.createdAt }}</strong></p> 
             <p style="font-size:30px">Made by : <strong style="font-size:30px">{{ movie.director.nameDirector }}</strong></p> 
@@ -49,20 +47,27 @@
                     $.post(
                         "/AverageRate/" +{{movie.id}},
                         function(data){
-                            console.log(data)
+                            document.getElementById('ratemajor').innerHTML = '<strong>'+data+'/10 </strong>';
                         }
-                    )
+                    );
                 }
-                $(".fa-star").click(function(){
 
-                    var note = $(this).siblings(".star").val();
+                function rating(element){
+                    var rate = element.children(".star").val();   
                     $.post(
-                        "/Rate/"+note+"/"+{{ app.user.id }}+"/"+{{ movie.id }},
+                        "/Rate/"+rate+"/"+{{ app.user.id }}+"/"+ {{ movie.id }},
                         function(data){
                             $("#userRating").html(data);
                             average()
+                            $(".star-label").click(function(){
+                                rating($(this));
+                            })
                         }
-                    )
+                    );
+                }
+
+                $(".star-label").click(function(){
+                    rating($(this));
                 })
 
         </script>

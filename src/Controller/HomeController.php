@@ -47,14 +47,15 @@ class HomeController extends AbstractController
                 $rate += $value->getRate();
             }
             $rate = $rate / count($rateMovies);
+            $rate = $rate.'/10';
         }
         else {
-            $rate = "Movie without a rate";
+            $rate = "Still not rate";
         }
         return $this->render('pages/movie.html.twig', [
             'movie' => $slug,
             'userRate' => $userRate,
-            'rate' => $rate
+            'rate' => $rate 
         ]);
     }
     /**
@@ -62,7 +63,7 @@ class HomeController extends AbstractController
      */
     public function average($slug){
 
-        $repositoryMovie = $this->getDoctrine()->getRepository(Movie::class);
+        $repositoryRateMovie = $this->getDoctrine()->getRepository(RateMovie::class);
         $rateMovies = $repositoryRateMovie->findBy(['movie' => $slug]);
         $rate = 0;
         if ($rateMovies){
@@ -71,12 +72,9 @@ class HomeController extends AbstractController
             }
             $rate = $rate / count($rateMovies);
         }
-        else {
-            $rate = "Movie without a rate";
-        }  
         $average = json_encode($rate);
 
-        return JsonResponse($average);
+        return new JsonResponse($average, 200);
 
     }
     /**
@@ -171,5 +169,18 @@ class HomeController extends AbstractController
         ])->getContent();
 
         return new Response($response);
+    }
+
+    /**
+     * @Route("/profil", name="profil")
+     */
+    public function profil(){
+
+        $repositoryRateMovie = $this->getDoctrine()->getRepository(RateMovie::class);
+        $userMovie = $repositoryRateMovie->findBy(['user' => $this->getUser()]);
+
+        return $this->render('pages/profil.html.twig', [
+            'userMovie' => $userMovie
+        ]);
     }
 }

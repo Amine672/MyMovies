@@ -1,7 +1,7 @@
 {% if results is defined %}
     {% if results is not empty %}
         {% for result in results %}
-            <a class="dropdown-item" href="{{ path('Movie', {slug: result.id}) }}">{{result.title}}</a>
+            <a class="dropdown-item" href="{{ path('Movie', {slug: result.id}) }}"><img style="height:50px; width:50px;" src="{{ result.img}}">{{result.title}}</a>
         {% endfor %}
     {% else %}
         <p class="dropdown-item">No result...</p>

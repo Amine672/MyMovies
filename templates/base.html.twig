@@ -29,19 +29,19 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="{{path('security_login')}}">Login</a>
                         </li>
+
                     {% else %}
+                        <li class="nav-item active">
+                            <a class="nav-link" href="{{path('profil')}}">Profil</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{path('security_logout')}}">Logout</a>
                         </li>
                     {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
                 </ul>
                 <div class="dropdown mt-2 mt-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="searchBar" autocomplete="off" >
+                    <input style="width:300px" class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search" id="searchBar" autocomplete="off" >
                     <div id="display" class="dropdown-menu">
-                        
                     </div>
                 </div>
                 
