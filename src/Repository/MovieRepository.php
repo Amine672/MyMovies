@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Movie;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Doctrine\DBAL\Driver\Connection;
 
 /**
  * @method Movie|null find($id, $lockMode = null, $lockVersion = null)
@@ -59,6 +60,22 @@ class MovieRepository extends ServiceEntityRepository
 
         return $qb->getResult();
     } 
+
+    function movieRandom(Connection $conn){
+        $sql = 'SELECT id from movie ORDER BY RAND() LIMIT 20';
+        $stmt = $conn->prepare($sql);
+        $stmt->execute();
+        $random_ids = array();
+        while ($id = $stmt->fetch()) {
+            $random_ids[] = $id['id'];
+        }
+        $qb = $this->createQueryBuilder('m')
+            ->where('m.id in (:ids)')
+            ->setParameter('ids', $random_ids)
+            ->setMaxResults('20')
+            ->getQuery();
+        return $qb->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Movie
