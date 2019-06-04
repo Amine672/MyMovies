@@ -50,6 +50,7 @@ class MovieRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
  
     }
+    
     function searchBar($key){
         $qb = $this->createQueryBuilder('m')
         ->where('m.title like :title')

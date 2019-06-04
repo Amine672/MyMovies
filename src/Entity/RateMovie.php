@@ -83,4 +83,7 @@ class RateMovie
         return $this;
     }
 
+    public function __toString(){
+        return "$this->rate/10";
+    }
 }

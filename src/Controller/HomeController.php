@@ -28,7 +28,6 @@ class HomeController extends AbstractController
         $repositoryMovie = $this->getDoctrine()->getRepository(Movie::class);
         $genres = $repositoryGenre->findAll();
         $movie = $repositoryMovie->movieRandom($conn);
-        dump($movie);
         $array_img = array(
             "https://i.ytimg.com/vi/2b4ByQzq3Yk/maxresdefault.jpg",
             "https://i.ytimg.com/vi/6mrUQz294Do/maxresdefault.jpg",
@@ -128,13 +127,7 @@ class HomeController extends AbstractController
             $request->query->getInt('page', 1),
             20
         );
-
-        // for ($i = 0; $i <= 19; $i++){
-        //     $y = rand(1, 300);
-        //     $movies_20[] = $movies[$y];
-        // }
         return $this->render('pages/genre.html.twig', [
-            // 'movies' => $movies_20,
             'genre' => $genre,
             'movies' => $movies
         ]);
@@ -211,7 +204,6 @@ class HomeController extends AbstractController
      * @Route("/profil", name="profil")
      */
     public function profil(){
-
         $repositoryRateMovie = $this->getDoctrine()->getRepository(RateMovie::class);
         $userMovie = $repositoryRateMovie->findBy(['user' => $this->getUser()]);
         $rated = count($userMovie);

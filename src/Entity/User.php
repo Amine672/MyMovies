@@ -63,17 +63,17 @@ class User Implements UserInterface
     private $tops;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RateMovie", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\RateMovie", mappedBy="user", orphanRemoval=true)
      */
     private $rateMovies;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\RateTop", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\RateTop", mappedBy="user", orphanRemoval=true)
      */
     private $rateTops;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Genre", inversedBy="users", orphanRemoval=true)
      */
     private $genres;
 
@@ -269,6 +269,8 @@ class User Implements UserInterface
         return $this;
     }
 
-
+    public function __toString(){
+        return $this->username;
+    }
 
 }

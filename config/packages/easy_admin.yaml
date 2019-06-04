@@ -1,0 +1,44 @@
+easy_admin:
+    formats:
+        date: 'd/m/Y'
+    entities:
+      Movie:
+        class: App\Entity\Movie
+        label: 'Movie'
+        list: 
+          title: "Movies"
+          actions:
+            - {name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-secondary'}
+            - {name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-danger'}       
+            - {name: 'new', label: 'Add a new movie', css_class: 'btn btn-primary'}
+            - {name: 'search', label: 'write your research...'}
+      User:
+        class: App\Entity\User
+        label: 'User'
+        list: 
+          title: "Users"
+          actions:
+            - {name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-secondary'}
+            - {name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-danger'}       
+            - {name: 'new', label: 'Add a new User', css_class: 'btn btn-primary'}
+            - {name: 'search', label: 'write your research...'} 
+      Director:
+        class: App\Entity\Director
+        label: 'Director'
+        list: 
+          title: "Directors"
+          actions:
+            - {name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-secondary'}
+            - {name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-danger'}       
+            - {name: 'new', label: 'Add a new Director', css_class: 'btn btn-primary'}
+            - {name: 'search', label: 'write your research...'} 
+      RateMovie:
+        class: App\Entity\RateMovie
+        label: 'Rate'
+        list: 
+          title: "Rate"
+          actions:
+            - {name: 'edit', icon: 'pencil', label: false, css_class: 'btn btn-secondary'}
+            - {name: 'delete', icon: 'trash', label: false, css_class: 'btn btn-danger'}       
+            - {name: 'new', label: 'Add a new rate', css_class: 'btn btn-primary'}
+            - {name: 'search', label: 'write your research...'}       
